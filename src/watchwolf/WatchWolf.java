@@ -11,6 +11,7 @@ package watchwolf;
  * @author tsukasa
  */
 public class WatchWolf {
+    
 
     /**
      * @param args the command line arguments
