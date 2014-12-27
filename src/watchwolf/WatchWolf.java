@@ -21,7 +21,7 @@ public class WatchWolf {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        WatchDirs watchDirs = new WatchDirs((new File("/Users/tsukasa/Projects/ToDoLister")).toPath());
+        WatchDirs watchDirs = new WatchDirs((new File(args[0])).toPath());
     }
     
 }
