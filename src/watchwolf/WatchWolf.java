@@ -6,6 +6,9 @@
 
 package watchwolf;
 
+import java.io.File;
+import java.nio.file.Path;
+
 /**
  *
  * @author tsukasa
@@ -18,6 +21,7 @@ public class WatchWolf {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        WatchDirs watchDirs = new WatchDirs((new File("/Users/tsukasa/Projects/ToDoLister")).toPath());
     }
     
 }
