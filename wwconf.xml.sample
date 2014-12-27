@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<conf>
+	<ftp>
+		<host></host>
+		<username></username>
+		<password></password>
+		<port></port>
+	</ftp>
+	<dir>
+		<uri></uri>
+		<ignore>
+			<file></file>
+		</ignore>
+	</dir>
+</conf>

@@ -23,9 +23,11 @@ public class WatchDirs {
     private WatchService watcher;
     private Map<WatchKey, Path> keys;
     private boolean trace = false;
+    
 
     /**
      * Creates a WatchService and registers the given directory
+     * @param pathToDir
      */
     public WatchDirs(Path pathToDir) {
         try {
@@ -73,7 +75,7 @@ public class WatchDirs {
     /**
      * Process all events for keys queued to the watcher
      */
-    void processEvents() {
+    public void processEvents() {
         for (;;) {
  
             // wait for key to be signalled
@@ -90,34 +92,24 @@ public class WatchDirs {
                 continue;
             }
  
-            for (WatchEvent<?> event: key.pollEvents()) {
+            key.pollEvents().stream().forEach((event) -> {
                 WatchEvent.Kind kind = event.kind();
- 
-                // TBD - provide example of how OVERFLOW event is handled
-                if (kind == OVERFLOW) {
-                    continue;
-                }
- 
-                // Context for directory entry event is the file name of entry
-                WatchEvent<Path> ev = cast(event);
-                Path name = ev.context();
-                Path child = dir.resolve(name);
- 
-                // print out event
-                System.out.format("%s: %s\n", event.kind().name(), child);
- 
-                // if directory is created, and watching recursively, then
-                // register it and its sub-directories
-                if (kind == ENTRY_CREATE) {
-                    try {
-                        if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
-                            registerDirs(child);
+                if (!(kind == OVERFLOW)) {
+                    WatchEvent<Path> ev = cast(event);
+                    Path name = ev.context();
+                    Path child = dir.resolve(name);
+                    System.out.format("%s: %s\n", event.kind().name(), child);
+                    if (kind == ENTRY_CREATE) {
+                        try {
+                            if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
+                                registerDirs(child);
+                            }
+                        } catch (IOException x) {
+                            // ignore to keep sample readbale
                         }
-                    } catch (IOException x) {
-                        // ignore to keep sample readbale
                     }
                 }
-            }
+            });
  
             // reset key and remove from set if directory no longer accessible
             boolean valid = key.reset();
