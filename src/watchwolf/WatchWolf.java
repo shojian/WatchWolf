@@ -30,6 +30,11 @@ public class WatchWolf {
             WatchDirs watchDirs = new WatchDirs(handlesStuff.getURI(), handlesStuff.getIgnored());
             /* ftp conn start */
             FileTransferClient ftp = new FileTransferClient();
+            ftp.setRemoteHost(handlesStuff.getHostname());
+            ftp.setUserName(handlesStuff.getUsername());
+            ftp.setPassword(handlesStuff.getPassword());
+            ftp.setRemotePort(handlesStuff.getPort());
+            
             /* ftp conn end*/
             // Watch starts
             watchDirs.processEvents();

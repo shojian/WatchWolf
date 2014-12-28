@@ -15,6 +15,7 @@ public class XMLHandler extends DefaultHandler {
     private final static String USERNAME = "username";
     private final static String PASSWORD = "password";
     private final static String PORT = "port";
+    private final static String SERVER_PATH = "server-path";
     private final static String DIR = "dir";
     private final static String URI = "uri";
     private final static String IGNORE = "ignore";
@@ -28,6 +29,7 @@ public class XMLHandler extends DefaultHandler {
     private final ArrayList<String> ignored = new ArrayList<>();
     private boolean hasValue = false;
     private StringBuffer value = new StringBuffer(100);
+    private String serverPath;
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
@@ -37,6 +39,7 @@ public class XMLHandler extends DefaultHandler {
             case PORT:
             case URI:
             case FILE:
+            case SERVER_PATH:
                 hasValue = true;
                 this.value = new StringBuffer(100);
                 break;
@@ -70,6 +73,9 @@ public class XMLHandler extends DefaultHandler {
             case FILE:
                 this.ignored.add(this.value.toString());
                 break;
+            case SERVER_PATH:
+                this.serverPath = this.value.toString();
+                break;
             default:
         }
     }
@@ -100,8 +106,9 @@ public class XMLHandler extends DefaultHandler {
     public ArrayList<String> getIgnored() {
         return ignored;
     }
-    
-    
-    
+
+    public String getServerPath() {
+        return serverPath;
+    }      
             
 }
