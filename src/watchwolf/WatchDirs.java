@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package watchwolf;
 
 import java.nio.file.*;
@@ -23,19 +18,22 @@ public class WatchDirs {
     private WatchService watcher;
     private Map<WatchKey, Path> keys;
     private boolean trace = false;
+    private ArrayList<String> ignore;
     
 
     /**
      * Creates a WatchService and registers the given directory
-     * @param pathToDir
+     * @param uri
+     * @param ignore
      */
-    public WatchDirs(Path pathToDir) {
+    public WatchDirs(String uri, ArrayList<String> ignore) {
         try {
             this.watcher = FileSystems.getDefault().newWatchService();
             this.keys = new HashMap<>();
+            this.ignore = ignore;
 
-            System.out.format("Scanning %s ...\n", pathToDir);
-            registerDirs(pathToDir);
+            System.out.format("Scanning %s ...\n", (new File(uri)).toPath());
+            registerDirs((new File(uri)).toPath());
             System.out.println("Done.");
 
             // enable trace after initial registration
@@ -66,7 +64,9 @@ public class WatchDirs {
                         }
                     }
                 }
-                keys.put(key, dir);
+                if (!ignore.contains(key)) {
+                    keys.put(key, dir);
+                }
                 return FileVisitResult.CONTINUE;
             }
         });

@@ -1,37 +1,41 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package watchwolf;
 
 import com.enterprisedt.net.ftp.FileTransferClient;
 import java.io.File;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import org.xml.sax.XMLReader;
 
 /**
  *
  * @author tsukasa
  */
 public class WatchWolf {
-    
+
+    private final static String confFile = "conf.xml";
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        loadConf();
-        // Watch dirs init
-        WatchDirs watchDirs = new WatchDirs((new File(args[0])).toPath());
-        /* ftp conn start */
-        FileTransferClient ftp = new FileTransferClient();
-        /* ftp conn end*/
-        // Watch starts
-        watchDirs.processEvents();
+        try {
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            XMLHandler handlesStuff = new XMLHandler();
+            spf.setValidating(false);
+            SAXParser saxLevel1 = spf.newSAXParser();
+            XMLReader parser = saxLevel1.getXMLReader();
+            parser.setContentHandler(handlesStuff);
+            parser.parse(confFile);
+            // Watch dirs init
+            WatchDirs watchDirs = new WatchDirs(handlesStuff.getURI(), handlesStuff.getIgnored());
+            /* ftp conn start */
+            FileTransferClient ftp = new FileTransferClient();
+            /* ftp conn end*/
+            // Watch starts
+            watchDirs.processEvents();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
-    private static void loadConf() {
-        
-    }
-    
 }

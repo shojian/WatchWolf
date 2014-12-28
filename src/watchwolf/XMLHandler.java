@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package watchwolf;
 
 import java.util.ArrayList;
@@ -15,7 +9,7 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  * @author tsukasa
  */
-public class XMLParser extends DefaultHandler {
+public class XMLHandler extends DefaultHandler {
     // Constants start    
     private final static String FTP = "ftp";
     private final static String USERNAME = "username";
