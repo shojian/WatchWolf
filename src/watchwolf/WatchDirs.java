@@ -1,5 +1,7 @@
 package watchwolf;
 
+import com.enterprisedt.net.ftp.FTPException;
+import com.enterprisedt.net.ftp.FileTransferClient;
 import java.nio.file.*;
 import static java.nio.file.StandardWatchEventKinds.*;
 import static java.nio.file.LinkOption.*;
@@ -74,8 +76,9 @@ public class WatchDirs {
     
     /**
      * Process all events for keys queued to the watcher
+     * @param ftp
      */
-    public void processEvents() {
+    public void processEvents(FileTransferClient ftp, String pathToDir) {
         for (;;) {
  
             // wait for key to be signalled
@@ -99,6 +102,13 @@ public class WatchDirs {
                     Path name = ev.context();
                     Path child = dir.resolve(name);
                     System.out.format("%s: %s\n", event.kind().name(), child);
+                    try {
+                        // Magic happens here
+                        ftp.uploadFile(child.toString(), pathToDir);
+                    } catch (FTPException | IOException ex) {
+                        Logger.getLogger(WatchDirs.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    // Magic starts here
                     if (kind == ENTRY_CREATE) {
                         try {
                             if (Files.isDirectory(child, NOFOLLOW_LINKS)) {

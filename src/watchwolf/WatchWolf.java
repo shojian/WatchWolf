@@ -34,10 +34,9 @@ public class WatchWolf {
             ftp.setUserName(handlesStuff.getUsername());
             ftp.setPassword(handlesStuff.getPassword());
             ftp.setRemotePort(handlesStuff.getPort());
-            
             /* ftp conn end*/
             // Watch starts
-            watchDirs.processEvents();
+            watchDirs.processEvents(ftp, handlesStuff.getServerPath());
         } catch (Exception e) {
             System.out.println(e);
         }
