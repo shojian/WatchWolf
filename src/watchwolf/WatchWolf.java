@@ -27,7 +27,7 @@ public class WatchWolf {
             parser.setContentHandler(handlesStuff);
             parser.parse(confFile);
             // Watch dirs init
-            WatchDirs watchDirs = new WatchDirs(handlesStuff.getURI(), handlesStuff.getIgnored());
+            WatchDirs watchDirs = new WatchDirs(handlesStuff.getLocalPath(), handlesStuff.getIgnored());
             /* ftp conn start */
             FileTransferClient ftp = new FileTransferClient();
             ftp.setRemoteHost(handlesStuff.getHostname());
@@ -36,7 +36,7 @@ public class WatchWolf {
             ftp.setRemotePort(handlesStuff.getPort());
             /* ftp conn end*/
             // Watch starts
-            watchDirs.processEvents(ftp, handlesStuff.getServerPath());
+            watchDirs.processEvents(ftp, handlesStuff.getRemotePath());
         } catch (Exception e) {
             System.out.println(e);
         }

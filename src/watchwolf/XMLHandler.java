@@ -15,9 +15,9 @@ public class XMLHandler extends DefaultHandler {
     private final static String USERNAME = "username";
     private final static String PASSWORD = "password";
     private final static String PORT = "port";
-    private final static String SERVER_PATH = "server-path";
+    private final static String REMOTE_PATH = "remote-path";
     private final static String DIR = "dir";
-    private final static String URI = "uri";
+    private final static String LOCAL_PATH = "local-path";
     private final static String IGNORE = "ignore";
     private final static String FILE = "file";
     //Constants end
@@ -25,11 +25,11 @@ public class XMLHandler extends DefaultHandler {
     private String username;
     private String password;
     private int port;
-    private String uri;
+    private String localPath;
     private final ArrayList<String> ignored = new ArrayList<>();
     private boolean hasValue = false;
     private StringBuffer value = new StringBuffer(100);
-    private String serverPath;
+    private String remotePath;
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
@@ -37,9 +37,9 @@ public class XMLHandler extends DefaultHandler {
             case USERNAME:
             case PASSWORD:
             case PORT:
-            case URI:
+            case LOCAL_PATH:
             case FILE:
-            case SERVER_PATH:
+            case REMOTE_PATH:
                 hasValue = true;
                 this.value = new StringBuffer(100);
                 break;
@@ -67,14 +67,14 @@ public class XMLHandler extends DefaultHandler {
             case PORT:
                 this.port =Integer.parseInt(this.value.toString());
                 break;
-            case URI:
-                this.uri = this.value.toString();
+            case LOCAL_PATH:
+                this.localPath = this.value.toString();
                 break;
             case FILE:
                 this.ignored.add(this.value.toString());
                 break;
-            case SERVER_PATH:
-                this.serverPath = this.value.toString();
+            case REMOTE_PATH:
+                this.remotePath = this.value.toString();
                 break;
             default:
         }
@@ -99,16 +99,16 @@ public class XMLHandler extends DefaultHandler {
         return port;
     }
 
-    public String getURI() {
-        return URI;
-    }
-
     public ArrayList<String> getIgnored() {
         return ignored;
     }
 
-    public String getServerPath() {
-        return serverPath;
-    }      
-            
+    public String getLocalPath() {
+        return localPath;
+    }
+
+    public String getRemotePath() {
+        return remotePath;
+    }
+                
 }
