@@ -77,6 +77,7 @@ public class WatchDirs {
     /**
      * Process all events for keys queued to the watcher
      * @param ftp
+     * @param pathToDir
      */
     public void processEvents(FileTransferClient ftp, String pathToDir) {
         for (;;) {
