@@ -21,6 +21,7 @@ public class WatchDirs {
     private Map<WatchKey, Path> keys;
     private boolean trace = false;
     private ArrayList<String> ignore;
+    private String pathToDir;
     
 
     /**
@@ -79,8 +80,9 @@ public class WatchDirs {
      * @param ftp
      * @param pathToDir
      */
-    public void processEvents(FileTransferClient ftp, String pathToDir) {
-        for (;;) {
+    public void processEvents(FileTransferClient ftp) {
+        System.out.println("Start processing");
+        while (true) {
  
             // wait for key to be signalled
             WatchKey key;
@@ -105,8 +107,10 @@ public class WatchDirs {
                     System.out.format("%s: %s\n", event.kind().name(), child);
                     try {
                         // Magic happens here
-                        ftp.uploadFile(child.toString(), pathToDir);
+                        String bhbh = child.toString();                            
+                        ftp.uploadFile(child.toString(), this.pathToDir + child.getFileName());
                     } catch (FTPException | IOException ex) {
+                        System.out.println(ex);
                         Logger.getLogger(WatchDirs.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     // Magic starts here
@@ -117,6 +121,7 @@ public class WatchDirs {
                             }
                         } catch (IOException x) {
                             // ignore to keep sample readbale
+                            System.out.println(x);
                         }
                     }
                 }
@@ -139,5 +144,11 @@ public class WatchDirs {
     static <T> WatchEvent<T> cast(WatchEvent<?> event) {
         return (WatchEvent<T>)event;
     }
+
+    public void setPathToDir(String pathToDir) {
+        this.pathToDir = pathToDir;
+    }
+    
+    
 
 }

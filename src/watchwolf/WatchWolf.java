@@ -37,7 +37,8 @@ public class WatchWolf {
             ftp.connect();
             /* ftp conn end*/
             // Watch starts
-            watchDirs.processEvents(ftp, handlesStuff.getRemotePath());
+            watchDirs.setPathToDir(handlesStuff.getRemotePath());
+            watchDirs.processEvents(ftp);
         } catch (Exception e) {
             System.out.println(e);
         }
