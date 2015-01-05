@@ -33,7 +33,6 @@ public class WatchDirs {
             this.watcher = FileSystems.getDefault().newWatchService();
             this.keys = new HashMap<>();
             this.ignore = ignore;
-
             System.out.format("Scanning %s ...\n", (new File(uri)).toPath());
             registerDirs((new File(uri)).toPath());
             System.out.println("Done.");
@@ -41,6 +40,7 @@ public class WatchDirs {
             // enable trace after initial registration
             this.trace = true;
         } catch (IOException ex) {
+            System.out.println(ex);
             Logger.getLogger(WatchDirs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

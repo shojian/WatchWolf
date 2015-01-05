@@ -12,7 +12,7 @@ import org.xml.sax.XMLReader;
  */
 public class WatchWolf {
 
-    private final static String confFile = "conf.xml";
+    private final static String confFile = "wwconf.xml";
 
     /**
      * @param args the command line arguments
@@ -34,6 +34,7 @@ public class WatchWolf {
             ftp.setUserName(handlesStuff.getUsername());
             ftp.setPassword(handlesStuff.getPassword());
             ftp.setRemotePort(handlesStuff.getPort());
+            ftp.connect();
             /* ftp conn end*/
             // Watch starts
             watchDirs.processEvents(ftp, handlesStuff.getRemotePath());
