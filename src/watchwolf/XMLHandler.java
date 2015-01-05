@@ -12,6 +12,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class XMLHandler extends DefaultHandler {
     // Constants start    
     private final static String FTP = "ftp";
+    private final static String HOST = "host";
     private final static String USERNAME = "username";
     private final static String PASSWORD = "password";
     private final static String PORT = "port";
@@ -40,6 +41,7 @@ public class XMLHandler extends DefaultHandler {
             case LOCAL_PATH:
             case FILE:
             case REMOTE_PATH:
+            case HOST:
                 hasValue = true;
                 this.value = new StringBuffer(100);
                 break;
@@ -75,6 +77,9 @@ public class XMLHandler extends DefaultHandler {
                 break;
             case REMOTE_PATH:
                 this.remotePath = this.value.toString();
+                break;
+            case HOST:
+                this.hostname = this.value.toString();
                 break;
             default:
         }

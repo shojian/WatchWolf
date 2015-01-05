@@ -29,7 +29,7 @@ public class WatchWolf {
             // Watch dirs init
             WatchDirs watchDirs = new WatchDirs(handlesStuff.getLocalPath(), handlesStuff.getIgnored());
             /* ftp conn start */
-            FileTransferClient ftp = new FileTransferClient();
+            FileTransferClient ftp = new FileTransferClient();            
             ftp.setRemoteHost(handlesStuff.getHostname());
             ftp.setUserName(handlesStuff.getUsername());
             ftp.setPassword(handlesStuff.getPassword());
